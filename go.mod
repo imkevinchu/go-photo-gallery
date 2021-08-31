@@ -1,3 +1,3 @@
-module github.com/imkevinchu/lenslocked
+module github.com/imkevinchu/go-photo-gallery
 
 go 1.17

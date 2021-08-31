@@ -6,6 +6,7 @@ import (
 )
 
 func handlerFunc(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Set("Content-Type", "text/html; charset=utf-8")
 	fmt.Fprint(writer, "<h1>Hello world</h1>")
 }
 
