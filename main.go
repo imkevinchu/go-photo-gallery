@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 func mainHandler(writer http.ResponseWriter, request *http.Request) {
@@ -25,23 +27,14 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 	</ul>`)
 }
 
-type Router struct{}
-
-func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/":
-		mainHandler(w, r)
-	case "/contact":
-		contactHandler(w, r)
-	case "/faq":
-		faqHandler(w, r)
-	default:
-		http.NotFound(w, r)
-	}
-}
-
 func main() {
-	var router Router
+	router := chi.NewRouter()
+
+	router.Get("/", mainHandler)
+	router.Get("/contact", contactHandler)
+	router.Get("/faq", faqHandler)
+	router.NotFound(http.NotFound)
+
 	fmt.Println("Starting server on :3000")
 	http.ListenAndServe(":3000", router)
 
