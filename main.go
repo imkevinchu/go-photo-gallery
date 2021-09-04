@@ -7,9 +7,9 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func mainHandler(writer http.ResponseWriter, request *http.Request) {
-	writer.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(writer, "<h1>Hello world</h1>")
+func mainHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	fmt.Fprint(w, "<h1>Hello world</h1>")
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,15 +27,21 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 	</ul>`)
 }
 
-func main() {
-	router := chi.NewRouter()
+func userHandler(w http.ResponseWriter, r *http.Request) {
+	userid := chi.URLParam(r, "userid")
+	fmt.Fprint(w, userid)
+}
 
-	router.Get("/", mainHandler)
-	router.Get("/contact", contactHandler)
-	router.Get("/faq", faqHandler)
-	router.NotFound(http.NotFound)
+func main() {
+	r := chi.NewRouter()
+
+	r.Get("/", mainHandler)
+	r.Get("/contact", contactHandler)
+	r.Get("/faq", faqHandler)
+	r.Get("/user/{userid}", userHandler)
+	r.NotFound(http.NotFound)
 
 	fmt.Println("Starting server on :3000")
-	http.ListenAndServe(":3000", router)
+	http.ListenAndServe(":3000", r)
 
 }
