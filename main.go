@@ -10,13 +10,9 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func mainHandler(w http.ResponseWriter, r *http.Request) {
+func executeTemplate(w http.ResponseWriter, filepath string) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
-	// file path handling in case of non-unix directories
-	templatePath := filepath.Join("templates", "home.gohtml")
-
-	template, err := template.ParseFiles(templatePath)
+	template, err := template.ParseFiles(filepath)
 	if err != nil {
 		log.Printf("parsing template: %v", err)
 		http.Error(w, "error parsing template", http.StatusInternalServerError)
@@ -30,9 +26,20 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func mainHandler(w http.ResponseWriter, r *http.Request) {
+
+	// file path handling in case of non-unix directories
+	templatePath := filepath.Join("templates", "home.gohtml")
+
+	executeTemplate(w, templatePath)
+}
+
 func contactHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "<h1>Contact</h1><p>Get in touch</p>")
+
+	// file path handling in case of non-unix directories
+	templatePath := filepath.Join("templates", "contact.gohtml")
+
+	executeTemplate(w, templatePath)
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
