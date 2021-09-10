@@ -27,29 +27,19 @@ func executeTemplate(w http.ResponseWriter, filepath string) {
 }
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
-
 	// file path handling in case of non-unix directories
 	templatePath := filepath.Join("templates", "home.gohtml")
-
 	executeTemplate(w, templatePath)
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
-
-	// file path handling in case of non-unix directories
 	templatePath := filepath.Join("templates", "contact.gohtml")
-
 	executeTemplate(w, templatePath)
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text-html; charset=utf-8")
-	fmt.Fprint(w, `<h1>Questions</h1>
-	<ul>
-		<li>Who?</li>
-		<li>What?</li>
-		<li>Why?</li>
-	</ul>`)
+	templatePath := filepath.Join("templates", "faq.gohtml")
+	executeTemplate(w, templatePath)
 }
 
 func userHandler(w http.ResponseWriter, r *http.Request) {
