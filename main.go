@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -11,8 +10,7 @@ import (
 )
 
 func executeTemplate(w http.ResponseWriter, filepath string) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	template, err := template.ParseFiles(filepath)
+	template, err := views.parseTemplate(filepath)
 	if err != nil {
 		log.Printf("parsing template: %v", err)
 		http.Error(w, "error parsing template", http.StatusInternalServerError)
